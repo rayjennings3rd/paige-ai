@@ -1,0 +1,19 @@
+Scenario:
+
+Each day we receive data from a collaborating hospital about patients' blood glucose levels. A patient has their level measured three times, and those reading are averaged together to determine if the patient's blood sugar level is normal, pre-diabetic or diabetic (a blood sugar level less than 140 mg/dL (7.8 mmol/L) is normal, more than 200 mg/dL (11.1 mmol/L) after two hours indicates diabetes, and a reading between 140 and 199 mg/dL (7.8 mmol/L and 11.0 mmol/L) indicates prediabetes). Typically a file will contain all three readings for a patient, but occasionally the hospital's lab information system is out of sync and we will receive some readings for a patient at a later date.
+
+The data we receive is in CSV format, and each file is named after the date it was transferred (2020-10-28 in the example attached). The files are uploaded each morning to the same directory in a shared S3 bucket. The files contain protected health information (PHI), which we are not allowed to store (PHI includes names, addresses, hospital identification numbers, etc., anything that could be used to personally identify the patient).
+
+Goal:
+
+Design an ETL application to run each morning that ingests the new CSV file and persists the data in a database or the data file format of your choice. Assume that eventually the volume of data will eventually grow to multiple TB and design your application accordingly.
+
+Steps:
+
+Make assumptions and justify them where things are unclear with comments in the code
+Write tests to ensure that your code and the data is correct
+Remove protected health information (PHI)
+Remove any invalid values and normalize where reasonable
+Add a column that calculates the average of all three glucose measurements (if present)
+Add a column that indicates whether the patient's glucose levels are normal, prediabetes, diabetes, or unable to be determined
+Account for late data (for example, if we receive two readings in one day's CSV file and the third reading in the next day's file)
